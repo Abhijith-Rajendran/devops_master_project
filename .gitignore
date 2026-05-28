@@ -1,0 +1,19 @@
+# Ignore Terraform state and plugin files
+.terraform/
+terraform.tfstate
+terraform.tfstate.backup
+.terraform.lock.hcl
+
+# Ignore Ansible retry files
+*.retry
+
+# Ignore your private SSH Keys!
+**/*.pem
+**/*.pub
+devops_key
+devops_key.pub
+~/.ssh/*
+
+# Ignore Python cache
+__pycache__/
+*.pyc

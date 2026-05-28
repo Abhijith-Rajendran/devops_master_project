@@ -1,0 +1,26 @@
+---
+- name: Configure Server and Deploy API
+  hosts: webservers
+  become: yes # This tells Ansible to run these commands as 'sudo' (Administrator)
+
+  tasks:
+    - name: 1. Install Docker on the cloud server
+      apt:
+        name: docker.io
+        state: present
+        update_cache: yes
+
+    - name: 2. Copy the Python App from your PC to the cloud server
+      copy:
+        src: ../app/
+        dest: /home/ubuntu/app/
+
+    - name: 3. Build the Docker image in the cloud
+      command: docker build -t system-status-api /home/ubuntu/app/
+
+    - name: 4. Stop the container if it is already running (for future updates)
+      command: docker rm -f api-server
+      ignore_errors: yes
+
+    - name: 5. Run the Docker container on Port 8000!
+      command: docker run -d -p 8000:8000 --name api-server system-status-api
